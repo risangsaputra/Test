@@ -1,0 +1,37 @@
+version: '2'
+services:
+  webserver-1:
+    image: php:7.0-apache
+    ports:
+     - "80:80"
+    volumes:
+     - /home/pinguin/Desktop:/var/www/html
+    links:
+     - mysqldb
+  webserver-2:
+    image: php:7.0-apache
+    ports:
+     - "9090:80"
+    volumes:
+     - /home/pinguin/Desktop/2:/var/www/html
+    links:
+     - mysqldb
+  phpmyadmin:
+    image: corbinu/docker-phpmyadmin
+    ports:
+     - 8181:80
+    environment:
+      MYSQL_USERNAME: root
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_PORT_3306_TCP_ADDR: mysqldb
+  mysqldb:
+    image: mysql:5.7
+    volumes:
+     - /var/lib/mysql
+    ports:
+     - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+      MYSQL_DATABASE: tes
